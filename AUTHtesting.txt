@@ -1,0 +1,47 @@
+1. register a new user:
+curl -X POST http://localhost:3000/auth/register \
+-H "Content-Type: application/json" \
+-d '{"email":"newuser@example.com", "password":"secure123"}'
+
+Expected:
+{ "message": "User registered successfully" }
+
+if duplicate:
+{ "error": "Email already registered." }
+
+
+2. log in to receive JWT
+curl -X POST http://localhost:3000/auth/login \
+-H "Content-Type: application/json" \
+-d '{"email":"newuser@example.com", "password":"secure123"}'
+
+Expected:
+{ "token": "eyJhbGciOiJIUzI1NiIs... (a token)" }
+
+ 3. Access /auth/list with a valid token
+ TOKEN="eyJhbGciOiJIUzI1NiIs..."  # Replace with the actual token above
+
+curl -H "Authorization: Bearer $TOKEN" http://localhost:3000/auth/list
+
+Expected:
+[
+  { "id": 1, "email": "newuser@example.com" },
+  ...
+]
+
+ 4. Access /auth/list without a token (should fail)
+
+curl http://localhost:3000/auth/list
+
+
+Expected:
+{ "error": "Missing token" }
+
+
+
+5. Access with an invalid/expired token
+curl -H "Authorization: Bearer invalid.token.here" http://localhost:3000/auth/list
+
+Expected:
+{ "error": "Invalid or expired token" }
+

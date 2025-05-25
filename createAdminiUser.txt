@@ -1,0 +1,6 @@
+
+Use Curl command to create the admin user:
+
+curl -X POST http://localhost:3001/auth/create-admin \
+-H "Content-Type: application/json" \
+-d '{"username": "admin", "email": "admin@example.com", "password": "admin123"}'

@@ -1,0 +1,41 @@
+#curl commands:
+
+# Get all shipping records: 
+curl -X GET http://localhost:3000/api/shipping-records
+# Get by ID: 
+curl -X GET http://localhost:3000/api/shipping-records/1
+# add a new record: 
+curl -X POST http://localhost:3000/api/shipping-records \
+-H "Content-Type: application/json" \
+-d '{
+  "sender_name": "Alice",
+  "recipient_name": "Bob",
+  "zip_from": "10001",
+  "zip_to": "94105",
+  "distance": 2900,
+  "zone": "Zone 8",
+  "occasion": "Birthday",
+  "ordered_date": "2025-03-25",
+  "delivery_date": "2025-03-30",
+  "shipping_method": "Priority"
+}'
+# Update a record: 
+curl -X PUT http://localhost:3000/api/shipping-records/1 \
+-H "Content-Type: application/json" \
+-d '{
+  "sender_name": "Alice",
+  "recipient_name": "Charlie",
+  "zip_from": "10001",
+  "zip_to": "30301",
+  "distance": 850,
+  "zone": "Zone 5",
+  "occasion": "Anniversary",
+  "ordered_date": "2025-03-26",
+  "delivery_date": "2025-03-29",
+  "shipping_method": "Standard"
+}'
+
+# Delete a record:
+curl -X DELETE http://localhost:3000/api/shipping-records/1
+
+

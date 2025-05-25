@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        button { padding: 10px; margin: 10px 0; cursor: pointer; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow: auto; }
+    </style>
+</head>
+<body>
+    <h1>API Test Page</h1>
+    
+    <div>
+        <h2>Test Simple Save Endpoint</h2>
+        <button id="testSimpleSave">Test Simple Save</button>
+        <pre id="simpleSaveResult">Results will appear here...</pre>
+    </div>
+    
+    <div>
+        <h2>Test Save Order Endpoint</h2>
+        <button id="testSaveOrder">Test Save Order</button>
+        <pre id="saveOrderResult">Results will appear here...</pre>
+    </div>
+    
+    <div>
+        <h2>Test Database</h2>
+        <button id="testDatabase">Test Database</button>
+        <pre id="databaseResult">Results will appear here...</pre>
+    </div>
+
+    <script>
+        document.getElementById('testSimpleSave').addEventListener('click', async () => {
+            const resultElement = document.getElementById('simpleSaveResult');
+            resultElement.textContent = 'Sending request...';
+            
+            const testData = {
+                sender_name: "Test Customer",
+                recipient_name: "Test Recipient",
+                from_postal_code: "04005",
+                to_postal_code: "02115",
+                shipping_method: "standard",
+                occasion: "Birthday",
+                event_date: new Date().toISOString()
+            };
+            
+            try {
+                console.log('Sending POST to /estimates/simple-save');
+                const response = await fetch('http://localhost:3001/estimates/simple-save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('Response status:', response.status);
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+                
+                let displayText = `Status: ${response.status}\n\n`;
+                try {
+                    displayText += JSON.stringify(JSON.parse(responseText), null, 2);
+                } catch (e) {
+                    displayText += responseText;
+                }
+                
+                resultElement.textContent = displayText;
+            } catch (error) {
+                console.error('Error:', error);
+                resultElement.textContent = `Error: ${error.message}`;
+            }
+        });
+        
+        document.getElementById('testSaveOrder').addEventListener('click', async () => {
+            const resultElement = document.getElementById('saveOrderResult');
+            resultElement.textContent = 'Sending request...';
+            
+            const testData = {
+                sender_name: "Test Customer",
+                recipient_name: "Test Recipient",
+                from_postal_code: "04005",
+                to_postal_code: "02115",
+                shipping_method: "standard",
+                occasion: "Birthday",
+                event_date: new Date().toISOString()
+            };
+            
+            try {
+                console.log('Sending POST to /estimates/save-order');
+                const response = await fetch('http://localhost:3001/estimates/save-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('Response status:', response.status);
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+                
+                let displayText = `Status: ${response.status}\n\n`;
+                try {
+                    displayText += JSON.stringify(JSON.parse(responseText), null, 2);
+                } catch (e) {
+                    displayText += responseText;
+                }
+                
+                resultElement.textContent = displayText;
+            } catch (error) {
+                console.error('Error:', error);
+                resultElement.textContent = `Error: ${error.message}`;
+            }
+        });
+        
+        document.getElementById('testDatabase').addEventListener('click', async () => {
+            const resultElement = document.getElementById('databaseResult');
+            resultElement.textContent = 'Sending request...';
+            
+            try {
+                console.log('Sending GET to /estimates/test-db');
+                const response = await fetch('http://localhost:3001/estimates/test-db');
+                
+                console.log('Response status:', response.status);
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+                
+                let displayText = `Status: ${response.status}\n\n`;
+                try {
+                    displayText += JSON.stringify(JSON.parse(responseText), null, 2);
+                } catch (e) {
+                    displayText += responseText;
+                }
+                
+                resultElement.textContent = displayText;
+            } catch (error) {
+                console.error('Error:', error);
+                resultElement.textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html> 
